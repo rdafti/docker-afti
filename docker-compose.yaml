@@ -1,0 +1,38 @@
+# Powered by : Alexandre ROBINE--DECOURCELLE
+# Context : AFTI ERSSE P2 - "Projet" Dockers
+
+version: '3'
+
+services:
+
+# FRONT
+
+  api-frontend:
+    hostname: frontend
+    build: ./api-frontend
+    environment:
+      API_BACKEND_URL: backend
+      API_BACKEND_PORT: 8001
+    ports:
+      - 8000:8000
+    links:
+      - api-backend
+    networks:
+     revproxy:
+    restart: on-failure
+
+# BACK
+
+  api-backend:
+    hostname: backend
+    build: ./api-backend
+    networks:
+      revproxy:
+        aliases:
+          - backend
+    restart: on-failure
+
+# NET
+
+networks:
+  revproxy:
