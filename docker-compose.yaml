@@ -26,6 +26,8 @@ services:
   api-backend:
     hostname: backend
     build: ./api-backend
+    ports:
+      - 8001:8001
     networks:
       revproxy:
         aliases:
